@@ -1,0 +1,25 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.adb.filesystem"
+        },
+        "cordova-plugin-fileopener": {
+            "PACKAGE_NAME": "com.adb.filesystem"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.adb.filesystem"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.adb.filesystem"
+        }
+    }
+}
