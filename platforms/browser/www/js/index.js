@@ -40,6 +40,9 @@ var app = {
 		document.getElementById("removeFile").addEventListener("click", removeFile);
 		document.getElementById("console").addEventListener("click", console);
 		document.getElementById("createFile_SdCard").addEventListener("click", createFile_SdCard);
+		document.getElementById("scandirectory").addEventListener("click", scandirectory);
+		
+		document.getElementById("listDir").addEventListener("click", listDir);
 
 	},
 
@@ -56,40 +59,46 @@ var app = {
 	}
 };
 
+function apend(id,add,txt)
+{
 
-function copy() {
-	Entry.prototype.copyTo = function(parent, newName, successCallback, errorCallback) {
-    argscheck.checkArgs('oSFF', 'Entry.copyTo', arguments);
-    var fail = errorCallback && function(code) {
-        errorCallback(new FileError(code));
-    };
-    var srcURL = this.toInternalURL(),
-        // entry name
-        name = newName || this.name,
-        // success callback
-        success = function(entry) {
-            if (entry) {
-                if (successCallback) {
-                    // create appropriate Entry object
-                    var newFSName = entry.filesystemName || (entry.filesystem && entry.filesystem.name);
-                    var fs = newFSName ? new FileSystem(newFSName, { name: "", fullPath: "/" }) : new FileSystem(parent.filesystem.name, { name: "", fullPath: "/" });
-                    var result = (entry.isDirectory) ? new (require('./DirectoryEntry'))(entry.name, entry.fullPath, fs, entry.nativeURL) : new (require('cordova-plugin-file.FileEntry'))(entry.name, entry.fullPath, fs, entry.nativeURL);
-                    successCallback(result);
-                }
-            }
-            else {
-                // no Entry object returned
-                if (fail) {
-                    fail(FileError.NOT_FOUND_ERR);
-                }
-            }
-        };
-
-    // copy
-    exec(success, fail, "File", "copyTo", [srcURL, parent.toInternalURL(), name]);
-};
+	 var li_create=document.createElement('li');
+	 li_create.innerHTML=txt;
+	 var ul=document.getElementById(id);
+	 ul.appendChild(li_create);
 
 }
+function dosya_goster(dsya_name)
+{
+	apend("filelist","li",dsya_name);
+}
+function scandirectory()
+{
+	var dirReader = fs.extSdCard.createReader();
+	dirReader.readEntries();
+
+}
+// function listDir(path){
+//   window.resolveLocalFileSystemURL(path,
+//     function (fileSystem) {
+//       var reader = fileSystem.createReader();
+//       reader.readEntries(
+//         function (entries) {
+//           console.log(entries);
+//         },
+//         function (err) {
+//           console.log(err);
+//         }
+//       );
+//     }, function (err) {
+//       console.log(err);
+//     }
+//   );
+// }
+// //example: list of www/audio/ folder in cordova/ionic app.
+// listDir(cordova.file.externalRootDirectory);
+
+
 
 function createFile_SdCard(dosyaAdi)
 {
@@ -104,9 +113,10 @@ function createFile_SdCard(dosyaAdi)
 
 	function successCallback(fs) {
 		//fs.root.getFile('log.txt', {create: true, exclusive: true}, function(fileEntry) {
-		var txtArea = document.getElementById('textarea');
-		//var dosya_path = 'file:///storage/extSdCard';
-		var dosya_path = txtArea.value;
+		var txtArea2 = document.getElementById('textarea2');
+		var dosya_path = 'file:///storage/extSdCard';
+		alert(dosya_path);
+		//var dosya_path = txtArea2.value;
 		alert(dosya_path);
 		window.resolveLocalFileSystemURL(dosya_path, function (fileEntry) {
 
